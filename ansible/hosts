@@ -1,0 +1,18 @@
+all:
+  children:
+    planos_control:
+      hosts:
+        p_nodo: 
+          ansible_ssh_host: 192.168.121.234
+          ansible_ssh_user: debian
+          ansible_ssh_private_key_file: ~/.ssh/id_rsa
+    trabajadores:
+      hosts:
+        nodo1: 
+          ansible_ssh_host: 192.168.121.157
+          ansible_ssh_user: debian
+          ansible_ssh_private_key_file: ~/.ssh/id_rsa
+        nodo2: 
+          ansible_ssh_host: 192.168.121.33
+          ansible_ssh_user: debian
+          ansible_ssh_private_key_file: ~/.ssh/id_rsa

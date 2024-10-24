@@ -7,9 +7,9 @@ Vagrant.configure("2") do |config|
       v.cpus = 3
       v.driver = "qemu"
     end
-    config.vm.define "master" do |master|
-      master.vm.hostname = "master"
-      master.vm.network "private_network",
+    config.vm.define "plano-control" do |pcontrol|
+      pcontrol.vm.hostname = "plano-control"
+      pcontrol.vm.network "private_network",
         :libvirt__network_name => "k3s-vagrant",
         :ip => "10.10.10.10",
         :libvirt__dhcp_enabled => false,
