@@ -1,5 +1,5 @@
 Vagrant.configure("2") do |config|
-    config.vm.box = "debian/bullseye64"
+    config.vm.box = "debian/bookworm64"
     config.vm.box_check_update = false
     config.vm.synced_folder ".", "/vagrant", disabled: true
     config.vm.provider "libvirt" do |v|
