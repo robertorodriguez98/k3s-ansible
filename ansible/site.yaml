@@ -1,0 +1,41 @@
+- hosts: all
+  become: true
+  tasks:
+    - name: Actualizamos el sistema
+      apt: update_cache=yes upgrade=yes
+    - name: instalación de k3s- nos aseguramos de que curl esté instalado
+      apt:
+        pkg: 
+          - curl
+    - name: Descargar instalador k3s
+      get_url: 
+        url: https://get.k3s.io
+        dest: "{{ fichero }}"
+    - name: Dar permisos de ejecución al instalador k3s
+      file:
+        path: "{{ fichero }}"
+        mode: '0755'
+    - name: Ejecutar instalador k3s
+      shell: "{{ fichero }}"
+    - name: Borrar instalador k3s
+      file: 
+        path: "{{ fichero }}"
+        state: absent
+
+- hosts: planos_control
+  become: true
+  tasks:
+    - name: sacar token
+      ansible.builtin.slurp:
+        src: "/var/lib/rancher/k3s/server/node-token"
+      register: token_k3s_base64
+    - name: descodificar token
+      ansible.builtin.set_fact:
+        token_k3s: "{{ token_k3s_base64.content | ansible.builtin.b64decode | replace('\n', '' ) }}"
+    - debug: msg="el token es {{token_k3s}}"
+
+- hosts: trabajadores
+  become: true
+  tasks:
+    - name: Ejecutar instalador k3s
+      shell: "k3s agent --server https://{{ ip_pcontrol }}:6443 --token {{ token_k3s }}"

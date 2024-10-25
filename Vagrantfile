@@ -3,8 +3,8 @@ Vagrant.configure("2") do |config|
     config.vm.box_check_update = false
     config.vm.synced_folder ".", "/vagrant", disabled: true
     config.vm.provider "libvirt" do |v|
-      v.memory = 2048
-      v.cpus = 3
+      v.memory = 4096
+      v.cpus = 4
       v.driver = "qemu"
     end
     config.vm.define "plano-control" do |pcontrol|
