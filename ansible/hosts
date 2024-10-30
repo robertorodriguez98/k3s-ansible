@@ -18,7 +18,6 @@ all:
           ansible_ssh_private_key_file: ../.vagrant/machines/nodo2/virtualbox/private_key
 
   vars:
-    fichero: "/home/vagrant/k3s.sh"
     token_k3s: ""
     token_k3s_base64: ""
     ip_pcontrol: "192.168.56.10"

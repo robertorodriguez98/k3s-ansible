@@ -3,7 +3,7 @@
   tasks:
     - name: Actualizamos el sistema
       apt: update_cache=yes upgrade=yes
-    - name: instalación de k3s- nos aseguramos de que curl esté instalado
+    - name: nos aseguramos de que curl esté instalado
       apt:
         pkg: 
           - curl
@@ -11,6 +11,7 @@
 - hosts: planos_control
   become: true
   tasks:
+    # Para que no haya problemas de certificados al usar kubectl, añadimos la IP del plano de control durante la instalación de k3s.
     - name: instalamos k3s
       shell: "curl -sfL https://get.k3s.io | INSTALL_K3S_EXEC='--tls-san {{ ip_pcontrol }}' sh -"
     - name: sacar token
