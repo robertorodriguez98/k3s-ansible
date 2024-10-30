@@ -21,4 +21,4 @@ all:
     fichero: "/home/vagrant/k3s.sh"
     token_k3s: ""
     token_k3s_base64: ""
-    ip_pcontrol: "10.10.10.10"
+    ip_pcontrol: "192.168.56.10"

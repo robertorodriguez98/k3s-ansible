@@ -7,24 +7,12 @@
       apt:
         pkg: 
           - curl
-    - name: Descargar instalador k3s
-      get_url: 
-        url: https://get.k3s.io
-        dest: "{{ fichero }}"
-    - name: Dar permisos de ejecución al instalador k3s
-      file:
-        path: "{{ fichero }}"
-        mode: '0755'
-    - name: Ejecutar instalador k3s
-      shell: "{{ fichero }}"
-    - name: Borrar instalador k3s
-      file: 
-        path: "{{ fichero }}"
-        state: absent
 
 - hosts: planos_control
   become: true
   tasks:
+    - name: instalamos k3s
+      shell: "curl -sfL https://get.k3s.io | INSTALL_K3S_EXEC='--tls-san {{ ip_pcontrol }}' sh -"
     - name: sacar token
       ansible.builtin.slurp:
         src: "/var/lib/rancher/k3s/server/node-token"
@@ -37,5 +25,5 @@
 - hosts: trabajadores
   become: true
   tasks:
-    - name: Ejecutar instalador k3s
-      shell: "k3s agent --server https://{{ ip_pcontrol }}:6443 --token {{ token_k3s }}"
+    - name: instalamos k3s con el token
+      shell: "curl -sfL https://get.k3s.io | K3S_URL=https://{{ ip_pcontrol }}:6443 K3S_TOKEN={{ hostvars['p_nodo'].token_k3s }} sh -"
